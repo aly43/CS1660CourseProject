@@ -10,6 +10,7 @@ Display the returned results of term search and Top-N in Jtable   Yes
 This project uses Docker and Mavin and Hadoop MapReduce Dependencies
 
 To authenticate your GCP Storage, create a credentials.json and replace within the main method of App.java
+https://cloud.google.com/iam/docs/creating-managing-service-account-keys
 
 The Jar files are to be uploaded to a GCP bucket and run through a Google Cluster
 
