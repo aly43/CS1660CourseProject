@@ -1,10 +1,15 @@
 # CS1660CourseProject
 
 Criteria 	Implemented?
+
 First Java Application Implementation and Execution on Docker 	Yes
+
 Docker to Local (or GCP) Cluster Communication 	Yes
+
 Inverted Indexing MapReduce Implementation and Execution on the Cluster (GCP) 	Yes
+
 Term and Top-N Search 	Yes
+
 Display the returned results of term search and Top-N in Jtable   Yes
 
 This project uses Docker and Mavin and Hadoop MapReduce Dependencies
