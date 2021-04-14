@@ -132,7 +132,7 @@ public class App {
       	panel.add(button);
       	panel.add(label1);
       	panel.add(invert);
-      	panel.add(goBack); 
+      	//panel.add(goBack); 
 
       	JLabel headerWait = new JLabel("Waiting for Job"); // part of waiting screen
       	label2 = new JLabel("<html>");
