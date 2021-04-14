@@ -1,5 +1,7 @@
 # CS1660CourseProject
 
+Video Link: https://youtu.be/2caeNFPwS0I
+
 Criteria 	Implemented?
 
 First Java Application Implementation and Execution on Docker 	Yes
@@ -12,9 +14,12 @@ Term and Top-N Search 	Yes
 
 Display the returned results of term search and Top-N in Jtable   Yes
 
+Known issues: gui closes on SearchTerm. Search MapReduce takes about 45 minutes to run, but the output is there. 
 
+Variables that need to be replaced: projectId, bucketName, cluster, project, region...
 
-This project uses Docker and Mavin and Hadoop MapReduce Dependencies
+This project uses Docker and Maven and Hadoop MapReduce Dependencies
+On Docker Hub : pull the maven image
 
 To authenticate your GCP Storage, create a credentials.json and replace within the main method of App.java
 https://cloud.google.com/iam/docs/creating-managing-service-account-keys
