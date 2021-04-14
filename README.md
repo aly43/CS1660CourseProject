@@ -16,7 +16,7 @@ Display the returned results of term search and Top-N in Jtable   Yes
 
 Known issues: gui closes on SearchTerm. Search MapReduce takes about 45 minutes to run, but the output is there. 
 
-Variables that need to be replaced: projectId, bucketName, cluster, project, region...
+Variables that need to be replaced: projectId, bucketName, cluster, project, region, google credentials
 
 This project uses Docker and Maven and Hadoop MapReduce Dependencies
 On Docker Hub : pull the maven image
