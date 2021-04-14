@@ -61,6 +61,9 @@ public class App {
 	private static File[] files;
 	private static final String projectID = "aly43-project-option-2";
     private static final String bucketName = "aly43project";
+    private static final String cluster = "cluster-151c";
+    private static final String project = "aly43 Project Option 2";
+    private static final String region = "us-central1";
     private static GoogleCredentials credential;
     private static Storage storage;
     private static String curJobId;
@@ -365,6 +368,7 @@ public class App {
 	      			else {
 	      				n = field1.getText();
 	      				System.out.println(n);
+	      				curJobId = UUID.randomUUID().toString();
 	      				createTopNJob();
 	      			}
       			} catch (Exception err)
@@ -384,6 +388,7 @@ public class App {
       			{
       				System.out.println(field2.getText());
       				term = field2.getText();
+      				curJobId = UUID.randomUUID().toString();
       				createSearchJob();
       				//set search display to visible
       				// maybe wait for monitor job, after job done then display
@@ -413,16 +418,16 @@ public class App {
     	Job job = null;
         try {
             Dataproc dataproc = new Dataproc.Builder(new NetHttpTransport(), new JacksonFactory(),
-                    new HttpCredentialsAdapter(credential)).setApplicationName("aly43 Project Option 2").build();
-            job = dataproc.projects().regions().jobs().submit(projectID, "us-central1",
+                    new HttpCredentialsAdapter(credential)).setApplicationName(project).build();
+            job = dataproc.projects().regions().jobs().submit(projectID, region,
                     new SubmitJobRequest().setJob(new Job().setReference(new JobReference().setJobId("job-" + curJobId))
-                            .setPlacement(new JobPlacement().setClusterName("cluster-151c"))
-                            .setHadoopJob(new HadoopJob().setMainClass("InvertIndex").setJarFileUris(ImmutableList.of("gs://aly43project/InvertIndex.jar"))
+                            .setPlacement(new JobPlacement().setClusterName(cluster))
+                            .setHadoopJob(new HadoopJob().setMainClass("InvertIndex").setJarFileUris(ImmutableList.of("gs://"+bucketName+"/InvertIndex.jar"))
                                     .setArgs(ImmutableList.of(
-                                            "gs://aly43project/Data-" + curJobId,
-                                            "gs://aly43project/output-" + curJobId)))))
+                                            "gs://"+bucketName+"/Data-" + curJobId,
+                                            "gs://"+bucketName+"/output-" + curJobId)))))
                     .execute();
-            output = "gs://aly43project/output-" + curJobId;
+            output = "gs://"+bucketName+"/output-" + curJobId;
             System.out.println("Job sent successfully...");
             waitForJob(job, dataproc, curJobId);
         } catch (Exception e) {
@@ -435,14 +440,14 @@ public class App {
     	Job job = null;
     	try {
             Dataproc dataproc = new Dataproc.Builder(new NetHttpTransport(), new JacksonFactory(),
-                    new HttpCredentialsAdapter(credential)).setApplicationName("aly43 Project Option 2").build();
-            job = dataproc.projects().regions().jobs().submit(projectID, "us-central1",
+                    new HttpCredentialsAdapter(credential)).setApplicationName(project).build();
+            job = dataproc.projects().regions().jobs().submit(projectID, region,
                     new SubmitJobRequest().setJob(new Job().setReference(new JobReference().setJobId("jobTop-" + curJobId))
-                            .setPlacement(new JobPlacement().setClusterName("cluster-151c"))
-                            .setHadoopJob(new HadoopJob().setMainClass("TopN").setJarFileUris(ImmutableList.of("gs://aly43project/TopN.jar"))
+                            .setPlacement(new JobPlacement().setClusterName(cluster))
+                            .setHadoopJob(new HadoopJob().setMainClass("TopN").setJarFileUris(ImmutableList.of("gs://"+bucketName+"/TopN.jar"))
                                     .setArgs(ImmutableList.of(
                                             output + "/part-r-00000",
-                                            "gs://aly43project/TopNoutput-" + curJobId,
+                                            "gs://"+bucketName+"/TopNoutput-" + curJobId,
                                             n)))))
                     .execute();
             System.out.println("Job sent successfully...");
@@ -456,14 +461,14 @@ public class App {
     private static void createSearchJob() {
     	Job job = null;
         try {
-            Dataproc dataproc = new Dataproc.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpCredentialsAdapter(credential)).setApplicationName("aly43 Project Option 2").build();
-            job = dataproc.projects().regions().jobs().submit(projectID, "us-central1",
+            Dataproc dataproc = new Dataproc.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpCredentialsAdapter(credential)).setApplicationName(project).build();
+            job = dataproc.projects().regions().jobs().submit(projectID, region,
                     new SubmitJobRequest().setJob(new Job().setReference(new JobReference().setJobId("jobSearch-" + curJobId))
-                            .setPlacement(new JobPlacement().setClusterName("cluster-151c"))
-                            .setHadoopJob(new HadoopJob().setMainClass("Search").setJarFileUris(ImmutableList.of("gs://aly43project/Search.jar"))
+                            .setPlacement(new JobPlacement().setClusterName(cluster))
+                            .setHadoopJob(new HadoopJob().setMainClass("Search").setJarFileUris(ImmutableList.of("gs://"+bucketName+"/Search.jar"))
                                     .setArgs(ImmutableList.of(
                                             output + "/part-r-00000",
-                                            "gs://aly43project/SearchOutput-" + curJobId,
+                                            "gs://"+bucketName+"/SearchOutput-" + curJobId,
                                             term)))))
                     .execute();
             System.out.println("Job sent successfully...");
@@ -482,7 +487,7 @@ public class App {
 
     	while(running) {
     		try {
-    			job = dataproc.projects().regions().jobs().get(projectID, "us-central1", "job-" + curJobId).execute();
+    			job = dataproc.projects().regions().jobs().get(projectID, region, "job-" + curJobId).execute();
     			JobStatus status = job.getStatus();
     			label2.setText("Job is performing");
     			if (status.getState().compareTo("DONE") == 0) {
@@ -507,7 +512,7 @@ public class App {
 
     	while(running) {
     		try {
-    			job = dataproc.projects().regions().jobs().get(projectID, "us-central1", "jobTop-" + curJobId).execute();
+    			job = dataproc.projects().regions().jobs().get(projectID, region, "jobTop-" + curJobId).execute();
     			JobStatus status = job.getStatus();
     			label2.setText("Job is performing");
     			if (status.getState().compareTo("DONE") == 0) {
@@ -533,7 +538,7 @@ public class App {
 
     	while(running) {
     		try {
-    			job = dataproc.projects().regions().jobs().get(projectID, "us-central1", "jobSearch-" + curJobId).execute();
+    			job = dataproc.projects().regions().jobs().get(projectID, region, "jobSearch-" + curJobId).execute();
     			JobStatus status = job.getStatus();
     			label2.setText("Job is performing");
     			if (status.getState().compareTo("DONE") == 0) {
