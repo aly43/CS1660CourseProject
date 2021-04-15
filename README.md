@@ -23,6 +23,10 @@ Variables that need to be replaced: In app.java --- projectId, bucketName, clust
 This project uses Docker and Maven and Hadoop MapReduce Dependencies
 On Docker Hub : pull the maven image
 
+Create new maven project and put app.java into the target destination.
+
+Include dockerfile in pom.xml directory. 
+
 To authenticate your GCP Storage, create a credentials.json and replace within the main method of App.java
 https://cloud.google.com/iam/docs/creating-managing-service-account-keys
 
