@@ -18,6 +18,8 @@ Known issues: gui closes on SearchTerm. Search MapReduce takes about 45 minutes 
 
 Variables that need to be replaced: In app.java --- projectId, bucketName, cluster, project, region, google credentials
 
+(App1.java has variables initialized on top)
+
 This project uses Docker and Maven and Hadoop MapReduce Dependencies
 On Docker Hub : pull the maven image
 
